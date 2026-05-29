@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamLab | Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="panel-header">
+      <div>
+        <span class="label">Panel Administrativo</span>
+        <h1>Administrador</h1>
+      </div>
+      <div class="admin-actions-bar">
+        <button class="button tertiary" id="backHomeButton">Volver al Home</button>
+        <button class="button secondary" id="logoutButton">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <section class="dashboard-cards">
+      <article class="card admin-card">
+        <p>Total usuarios</p>
+        <strong id="totalUsers">0</strong>
+      </article>
+      <article class="card admin-card">
+        <p>Total películas</p>
+        <strong id="totalMovies">0</strong>
+      </article>
+      <article class="card admin-card">
+        <p>Total series</p>
+        <strong id="totalSeries">0</strong>
+      </article>
+      <article class="card admin-card">
+        <p>Total géneros</p>
+        <strong id="totalGenres">0</strong>
+      </article>
+    </section>
+
+    <section class="admin-grid">
+      <div class="admin-panel">
+        <div class="section-header">
+          <h2>Usuarios</h2>
+        </div>
+        <div class="admin-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="admin-panel">
+        <div class="section-header">
+          <h2>Películas</h2>
+        </div>
+        <div class="admin-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Año</th>
+                <th>Rating</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="moviesTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="admin-panel">
+        <div class="section-header">
+          <h2>Series</h2>
+        </div>
+        <div class="admin-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Año</th>
+                <th>Rating</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="seriesTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="admin-panel">
+        <div class="section-header">
+          <h2>Géneros</h2>
+        </div>
+        <div class="admin-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="genresTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-actions">
+      <div class="admin-form-card">
+        <h3>Crear usuario</h3>
+        <form id="createUserForm">
+          <input id="newUserName" type="text" required placeholder="Usuario" />
+          <input id="newUserEmail" type="email" required placeholder="Email" />
+          <input id="newUserPassword" type="password" required placeholder="Contraseña" />
+          <select id="newUserRole">
+            <option value="user">user</option>
+            <option value="manager">manager</option>
+            <option value="admin">admin</option>
+          </select>
+          <button class="button primary" type="submit">Crear usuario</button>
+        </form>
+      </div>
+      <div class="admin-form-card">
+        <h3>Crear película</h3>
+        <form id="createMovieForm">
+          <input id="movieTitle" type="text" required placeholder="Título" />
+          <input id="movieGenre" type="text" required placeholder="Género" />
+          <input id="movieYear" type="number" required placeholder="Año" />
+          <input id="movieRating" type="number" step="0.1" min="0" max="10" required placeholder="Rating" />
+          <input id="movieImage" type="text" required placeholder="URL de imagen /images/movieX.svg" />
+          <textarea id="movieDescription" rows="3" required placeholder="Descripción"></textarea>
+          <button class="button primary" type="submit">Crear película</button>
+        </form>
+      </div>
+      <div class="admin-form-card">
+        <h3>Crear serie</h3>
+        <form id="createSeriesForm">
+          <input id="seriesTitle" type="text" required placeholder="Título" />
+          <input id="seriesGenre" type="text" required placeholder="Género" />
+          <input id="seriesYear" type="number" required placeholder="Año" />
+          <input id="seriesRating" type="number" step="0.1" min="0" max="10" required placeholder="Rating" />
+          <input id="seriesImage" type="text" required placeholder="URL de imagen /images/movieX.svg" />
+          <textarea id="seriesDescription" rows="3" required placeholder="Descripción"></textarea>
+          <button class="button primary" type="submit">Crear serie</button>
+        </form>
+      </div>
+      <div class="admin-form-card">
+        <h3>Crear género</h3>
+        <form id="createGenreForm">
+          <input id="genreName" type="text" required placeholder="Nombre de género" />
+          <textarea id="genreDescription" rows="3" placeholder="Descripción (opcional)"></textarea>
+          <button class="button primary" type="submit">Crear género</button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

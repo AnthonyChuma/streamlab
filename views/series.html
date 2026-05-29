@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamLab | Series</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="nav-bar nav-auth">
+      <div class="brand">StreamLab</div>
+      <div class="catalog-actions">
+        <button class="button tertiary" onclick="window.location.href='/catalog.html'">Volver al catálogo</button>
+        <button class="button secondary" id="logoutButton">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <main class="home-content catalog-page">
+      <section class="search-panel">
+        <div class="search-box">
+          <input id="searchInput" type="search" placeholder="Buscar por título" />
+          <select id="genreFilter">
+            <option value="all">Todos los géneros</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="cards-gallery">
+        <div class="section-header">
+          <h2>Series</h2>
+          <p>Explora series por género y popularidad.</p>
+        </div>
+        <div class="cards-grid" id="seriesGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/series.js"></script>
+</body>
+</html>

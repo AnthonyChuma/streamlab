@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Movie poster">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3f1d3a"/>
+      <stop offset="100%" stop-color="#100615"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g2)"/>
+  <path d="M 80 300 Q 260 80 520 310" fill="none" stroke="#ff9f1c" stroke-width="24" stroke-linecap="round"/>
+  <text x="50%" y="210" fill="#fff" font-size="48" font-weight="700" text-anchor="middle">CRIMSON</text>
+</svg>

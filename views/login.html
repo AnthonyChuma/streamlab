@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamLab | Login</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="auth-shell">
+    <div class="auth-card">
+      <a class="close-link" href="/" aria-label="Volver al inicio">×</a>
+      <h1>Iniciar sesión</h1>
+      <p>Ingresa con tu usuario para acceder al catálogo y acciones seguras.</p>
+      <form id="loginForm">
+        <label>Usuario</label>
+        <input id="loginUsername" type="text" required placeholder="Tu usuario" />
+        <label>Contraseña</label>
+        <input id="loginPassword" type="password" required placeholder="Tu contraseña" />
+        <button class="button primary" type="submit">Entrar</button>
+      </form>
+      <button class="button secondary cancel-btn" type="button" id="loginCancel">Cancelar</button>
+      <p class="hint">¿No tienes cuenta? <a href="/signup">Regístrate</a></p>
+      <p class="message" id="loginMessage"></p>
+    </div>
+  </div>
+  <script src="/js/common.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

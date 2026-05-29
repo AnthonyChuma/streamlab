@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Movie poster">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1c3d5a"/>
+      <stop offset="100%" stop-color="#07121f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g1)"/>
+  <circle cx="130" cy="120" r="90" fill="#f03f5f" opacity="0.9"/>
+  <rect x="320" y="80" width="240" height="200" rx="24" fill="#0e1f32"/>
+  <text x="50%" y="235" fill="#fff" font-size="42" font-weight="700" text-anchor="middle">NEBULA</text>
+</svg>

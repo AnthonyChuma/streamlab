@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamLab | Sign Up</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="auth-shell">
+    <div class="auth-card">
+      <a class="close-link" href="/" aria-label="Volver al inicio">×</a>
+      <h1>Regístrate</h1>
+      <p>Crea tu cuenta para ver películas, filtrar y participar como usuario.</p>
+      <form id="signupForm">
+        <label>Usuario</label>
+        <input id="signupUsername" type="text" required placeholder="Tu usuario" />
+        <label>Email</label>
+        <input id="signupEmail" type="email" required placeholder="tu@email.com" />
+        <label>Contraseña</label>
+        <input id="signupPassword" type="password" required placeholder="Elige una contraseña" />
+        <button class="button primary" type="submit">Registrarme</button>
+      </form>
+      <button class="button secondary cancel-btn" type="button" id="signupCancel">Cancelar</button>
+      <p class="hint">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+      <p class="message" id="signupMessage"></p>
+    </div>
+  </div>
+  <script src="/js/common.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

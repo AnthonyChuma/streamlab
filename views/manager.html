@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamLab | Manager</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="manager-shell">
+    <header class="panel-header">
+      <div>
+        <span class="label">Panel Manager</span>
+        <h1>Gestión de películas</h1>
+      </div>
+      <div class="admin-actions-bar">
+        <button class="button tertiary" id="backHomeButton">Volver al Home</button>
+        <button class="button secondary" id="logoutButton">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <section class="manager-actions">
+      <div class="admin-form-card">
+        <h3>Agregar película</h3>
+        <form id="managerMovieForm">
+          <input id="managerMovieTitle" type="text" required placeholder="Título" />
+          <input id="managerMovieGenre" type="text" required placeholder="Género" />
+          <input id="managerMovieYear" type="number" required placeholder="Año" />
+          <input id="managerMovieRating" type="number" step="0.1" min="0" max="10" required placeholder="Rating" />
+          <input id="managerMovieImage" type="text" required placeholder="URL de imagen /images/movieX.svg" />
+          <textarea id="managerMovieDescription" rows="3" required placeholder="Descripción"></textarea>
+          <button class="button primary" type="submit">Agregar película</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="admin-grid">
+      <div class="admin-panel full-width">
+        <div class="section-header">
+          <h2>Películas disponibles</h2>
+        </div>
+        <div class="admin-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Año</th>
+                <th>Rating</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="managerMoviesTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/manager.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Movie poster">
+  <defs>
+    <linearGradient id="g6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#15031e"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g6)"/>
+  <rect x="120" y="80" width="400" height="220" rx="28" fill="#000" opacity="0.3"/>
+  <circle cx="320" cy="170" r="70" fill="#facc15"/>
+  <text x="50%" y="250" fill="#fff" font-size="42" font-weight="700" text-anchor="middle">MOONLIGHT</text>
+</svg>

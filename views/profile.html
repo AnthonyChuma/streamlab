@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamLab | Perfil</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="profile-shell">
+    <header class="panel-header">
+      <div>
+        <span class="label">Mi perfil</span>
+        <h1>Bienvenido</h1>
+      </div>
+      <button class="button secondary" id="logoutButton">Cerrar sesión</button>
+    </header>
+
+    <section class="profile-card">
+      <h2>Datos de la cuenta</h2>
+      <div class="profile-fields">
+        <div><strong>Usuario:</strong> <span id="profileUsername">-</span></div>
+        <div><strong>Email:</strong> <span id="profileEmail">-</span></div>
+        <div><strong>Rol:</strong> <span id="profileRole">-</span></div>
+      </div>
+    </section>
+
+    <section class="profile-actions">
+      <a class="button primary" href="/">Ir al catálogo</a>
+    </section>
+  </div>
+
+  <script src="/js/common.js"></script>
+  <script>
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      logout();
+      window.location.href = "/";
+    });
+
+    async function loadProfile() {
+      try {
+        const response = await authFetch("/api/auth/me");
+        if (!response.ok) throw new Error("No autorizado");
+        const data = await response.json();
+        document.getElementById("profileUsername").textContent = data.user.username;
+        document.getElementById("profileEmail").textContent = data.user.email;
+        document.getElementById("profileRole").textContent = data.user.role;
+      } catch (error) {
+        window.location.href = "/login";
+      }
+    }
+
+    loadProfile();
+  </script>
+</body>
+</html>
