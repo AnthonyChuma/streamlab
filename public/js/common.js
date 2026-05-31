@@ -2,15 +2,26 @@ const STREAM_TOKEN = "streamlab_token";
 
 function saveToken(token) {
   localStorage.setItem(STREAM_TOKEN, token);
+  document.cookie = `auth_token=${token}; path=/`;
 }
 
 function getToken() {
   return localStorage.getItem(STREAM_TOKEN);
 }
 
+function ensureTokenCookie() {
+  const token = getToken();
+  if (token && !document.cookie.includes("auth_token=")) {
+    document.cookie = `auth_token=${token}; path=/`;
+  }
+}
+
 function logout() {
   localStorage.removeItem(STREAM_TOKEN);
+  document.cookie = "auth_token=; Max-Age=0; path=/";
 }
+
+ensureTokenCookie();
 
 async function authFetch(url, options = {}) {
   const token = getToken();

@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const { authenticateToken, authorizeRoles } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 function sendView(res, fileName) {
@@ -9,8 +10,8 @@ function sendView(res, fileName) {
 router.get("/", (req, res) => sendView(res, "home.html"));
 router.get("/login", (req, res) => sendView(res, "login.html"));
 router.get("/signup", (req, res) => sendView(res, "signup.html"));
-router.get("/admin", (req, res) => sendView(res, "admin.html"));
-router.get("/admin.html", (req, res) => sendView(res, "admin.html"));
+router.get("/admin", authenticateToken, authorizeRoles("admin"), (req, res) => sendView(res, "admin.html"));
+router.get("/admin.html", authenticateToken, authorizeRoles("admin"), (req, res) => sendView(res, "admin.html"));
 router.get("/catalog", (req, res) => sendView(res, "catalog.html"));
 router.get("/catalog.html", (req, res) => sendView(res, "catalog.html"));
 router.get("/manager", (req, res) => sendView(res, "manager.html"));

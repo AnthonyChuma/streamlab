@@ -26,6 +26,31 @@ async function getMovies(req, res) {
   }
 }
 
+async function searchMovies(req, res) {
+  try {
+    const title = req.method === "GET" ? req.query.title : req.body.title;
+    const genre = req.method === "GET" ? req.query.genre : req.body.genre;
+    const filter = {};
+
+    if (title !== undefined) {
+      if (req.method === "GET") {
+        filter.title = new RegExp(title, "i");
+      } else {
+        filter.title = title;
+      }
+    }
+
+    if (genre && genre !== "all") {
+      filter.genre = genre;
+    }
+
+    const movies = await Movie.find(filter).sort({ rating: -1, year: -1 });
+    res.json({ total: movies.length, movies });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 async function getMovie(req, res) {
   try {
     const movie = await Movie.findById(req.params.id);
@@ -72,4 +97,4 @@ async function deleteMovie(req, res) {
   }
 }
 
-module.exports = { getMovies, getMovie, createMovie, updateMovie, deleteMovie };
+module.exports = { getMovies, searchMovies, getMovie, createMovie, updateMovie, deleteMovie };

@@ -12,8 +12,8 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const seriesRoutes = require("./routes/seriesRoutes");
 const genreRoutes = require("./routes/genreRoutes");
 const pageRoutes = require("./routes/pageRoutes");
-const labRoutes = require("./routes/labRoutes");
 const { authenticateToken } = require("./middleware/authMiddleware");
+const { profile } = require("./controllers/authController");
 const User = require("./models/User");
 const Movie = require("./models/Movie");
 const Series = require("./models/Series");
@@ -22,7 +22,6 @@ const Genre = require("./models/Genre");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/movies", movieRoutes);
@@ -31,115 +30,17 @@ app.use("/api/genres", genreRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-// ⚠️ RUTAS DE LABORATORIO - SOLO PARA DEMOSTRACIÓN ACADÉMICA
-app.use("/api/lab", labRoutes);
-
+app.get("/api/profile", authenticateToken, profile);
 app.use("/", pageRoutes);
+app.use(express.static(path.join(__dirname, "public")));
+
 
 app.get("/api", (req, res) => {
   res.json({
-    app: "Streaming Lab - NoSQL Injection Demo",
-    production_endpoints: {
-      "POST /api/auth/login": "Iniciar sesión (seguro)",
-      "POST /api/auth/signup": "Crear usuario (seguro)",
-      "GET /api/auth/me": "Perfil del usuario autenticado",
-      "GET /api/movies": "Listar películas",
-      "POST /api/movies": "Agregar película (admin)",
-      "PUT /api/movies/:id": "Editar película (admin)",
-      "DELETE /api/movies/:id": "Eliminar película (admin)",
-      "GET /api/series": "Listar series",
-      "POST /api/series": "Agregar serie (admin)",
-      "PUT /api/series/:id": "Editar serie (admin)",
-      "DELETE /api/series/:id": "Eliminar serie (admin)",
-      "GET /api/genres": "Listar géneros",
-      "POST /api/genres": "Crear género (admin)",
-      "PUT /api/genres/:id": "Editar género (admin)",
-      "DELETE /api/genres/:id": "Eliminar género (admin)",
-      "GET /api/users": "Listar usuarios (admin)",
-      "POST /api/users": "Crear usuario (admin)",
-      "GET /api/dashboard/stats": "Estadísticas del dashboard (admin)",
-      "POST /buscar-usuario": "Búsqueda de usuarios (requiere token)",
-      "POST /actualizar": "Actualizar usuario (requiere token)"
-    },
-    lab_endpoints: {
-      "warning": "⚠️ SOLO PARA DEMOSTRACIÓN ACADÉMICA",
-      "POST /api/auth/login-lab": "Login VULNERABLE a NoSQL Injection",
-      "GET /api/lab/users": "Listar usuarios (requiere token)",
-      "POST /api/lab/search-users": "Buscar usuarios (requiere token, vulnerable)",
-      "POST /api/lab/update-user": "Actualizar usuario (requiere token, vulnerable)"
-    },
-    lab_examples: {
-      "bypass_login": {
-        "description": "Bypass de login sin credenciales válidas",
-        "payload": {
-          "username": { "$ne": null },
-          "password": { "$ne": null }
-        }
-      },
-      "update_role": {
-        "description": "Cambiar rol de usuario a admin",
-        "endpoint": "POST /api/lab/update-user",
-        "payload": {
-          "username": "alice",
-          "campo": "role",
-          "valor": "admin"
-        },
-        "requires": "Token válido"
-      }
-    }
+    app: "StreamLab",
+    status: "online",
+    message: "API activa"
   });
-});
-
-app.get("/usuarios", async (req, res) => {
-  try {
-    const usuarios = await User.find({});
-    res.json({ total: usuarios.length, usuarios });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// ⚠️ RUTA DE LABORATORIO - REQUIERE AUTENTICACIÓN
-// Antes era pública, ahora está protegida con token
-app.post("/buscar-usuario", authenticateToken, async (req, res) => {
-  try {
-    const { username } = req.body;
-    const usuarios = await User.find({ username });
-    if (usuarios.length > 0) {
-      res.json({
-        status: "BÚSQUEDA EXITOSA",
-        total: usuarios.length,
-        usuarios,
-      });
-    } else {
-      res.status(404).json({ status: "Usuario no encontrado" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// ⚠️ RUTA DE LABORATORIO - REQUIERE AUTENTICACIÓN
-// Antes era pública, ahora está protegida con token
-app.post("/actualizar", authenticateToken, async (req, res) => {
-  try {
-    const { username, campo, valor } = req.body;
-    const resultado = await User.findOneAndUpdate(
-      { username },
-      { [campo]: valor },
-      { new: true }
-    );
-    if (resultado) {
-      res.json({
-        status: "✅ ACTUALIZACIÓN EXITOSA",
-        usuario: resultado,
-      });
-    } else {
-      res.status(404).json({ status: "Usuario no encontrado" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
 });
 
 async function seedDatabase() {
@@ -155,7 +56,7 @@ async function seedDatabase() {
       { username: "alice", password: "user123", email: "alice@streamlab.com", role: "user" },
       { username: "carlos", password: "carlos123", email: "carlos@streamlab.com", role: "user" },
     ]);
-    console.log("🌱 Usuarios normales de ejemplo creados");
+    console.log("Usuarios normales de ejemplo creados");
   }
 
   const movieCount = await Movie.countDocuments();
@@ -218,7 +119,7 @@ const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/streamlab"
 
 mongoose.connect(MONGO_URI)
   .then(() => {
-    console.log("✅ Conectado a MongoDB");
+    console.log("Conectado a MongoDB");
     seedDatabase();
   })
   .catch((err) => console.error("❌ Error de conexión:", err));

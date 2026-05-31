@@ -5,9 +5,17 @@ const JWT_SECRET = process.env.JWT_SECRET || "streaming-lab-secret";
 
 async function authenticateToken(req, res, next) {
   const authHeader = req.headers.authorization || req.headers["x-auth-token"];
-  const token = authHeader && authHeader.startsWith("Bearer ")
+  let token = authHeader && authHeader.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
     : authHeader;
+
+  if (!token && req.headers.cookie) {
+    const cookieHeader = req.headers.cookie.split(";").map(part => part.trim());
+    const authCookie = cookieHeader.find((cookie) => cookie.startsWith("auth_token="));
+    if (authCookie) {
+      token = authCookie.split("=")[1];
+    }
+  }
 
   if (!token) {
     return res.status(401).json({ error: "No token provided" });

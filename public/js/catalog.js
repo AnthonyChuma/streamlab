@@ -90,30 +90,21 @@ async function loadCatalog() {
     renderGenres(genres);
   };
 
-  const applyFilters = () => {
-    const search = searchInput.value.trim().toLowerCase();
-    const genre = genreFilter.value;
-    const filteredMovies = movies.filter((movie) => {
-      const matchesGenre = genre === "all" || movie.genre === genre;
-      const text = `${movie.title} ${movie.description}`.toLowerCase();
-      return matchesGenre && text.includes(search);
-    });
-
-    const filteredSeries = series.filter((item) => {
-      const matchesGenre = genre === "all" || item.genre === genre;
-      const text = `${item.title} ${item.description}`.toLowerCase();
-      return matchesGenre && text.includes(search);
-    });
-
-    renderMovies(filteredMovies);
-    renderSeries(filteredSeries);
-  };
-
   const loadMovies = async () => {
-    const response = await fetch("/api/movies");
+    const query = searchInput.value.trim();
+    const genre = genreFilter.value;
+    const params = new URLSearchParams();
+    if (query) params.append("title", query);
+    if (genre && genre !== "all") params.append("genre", genre);
+
+    const response = await fetch(`/api/movies/search?${params.toString()}`);
     const data = await response.json();
     movies = data.movies || [];
-    applyFilters();
+    renderMovies(movies);
+  };
+
+  const applyFilters = async () => {
+    await loadMovies();
   };
 
   const loadSeriesData = async () => {
