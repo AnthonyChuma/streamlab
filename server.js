@@ -12,6 +12,8 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const seriesRoutes = require("./routes/seriesRoutes");
 const genreRoutes = require("./routes/genreRoutes");
 const pageRoutes = require("./routes/pageRoutes");
+const labRoutes = require("./routes/labRoutes");
+const { authenticateToken } = require("./middleware/authMiddleware");
 const User = require("./models/User");
 const Movie = require("./models/Movie");
 const Series = require("./models/Series");
@@ -28,14 +30,18 @@ app.use("/api/series", seriesRoutes);
 app.use("/api/genres", genreRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+
+// ⚠️ RUTAS DE LABORATORIO - SOLO PARA DEMOSTRACIÓN ACADÉMICA
+app.use("/api/lab", labRoutes);
+
 app.use("/", pageRoutes);
 
 app.get("/api", (req, res) => {
   res.json({
-    app: "Streaming Lab",
-    endpoints: {
-      "POST /api/auth/login": "Iniciar sesión",
-      "POST /api/auth/signup": "Crear usuario",
+    app: "Streaming Lab - NoSQL Injection Demo",
+    production_endpoints: {
+      "POST /api/auth/login": "Iniciar sesión (seguro)",
+      "POST /api/auth/signup": "Crear usuario (seguro)",
       "GET /api/auth/me": "Perfil del usuario autenticado",
       "GET /api/movies": "Listar películas",
       "POST /api/movies": "Agregar película (admin)",
@@ -52,6 +58,34 @@ app.get("/api", (req, res) => {
       "GET /api/users": "Listar usuarios (admin)",
       "POST /api/users": "Crear usuario (admin)",
       "GET /api/dashboard/stats": "Estadísticas del dashboard (admin)",
+      "POST /buscar-usuario": "Búsqueda de usuarios (requiere token)",
+      "POST /actualizar": "Actualizar usuario (requiere token)"
+    },
+    lab_endpoints: {
+      "warning": "⚠️ SOLO PARA DEMOSTRACIÓN ACADÉMICA",
+      "POST /api/auth/login-lab": "Login VULNERABLE a NoSQL Injection",
+      "GET /api/lab/users": "Listar usuarios (requiere token)",
+      "POST /api/lab/search-users": "Buscar usuarios (requiere token, vulnerable)",
+      "POST /api/lab/update-user": "Actualizar usuario (requiere token, vulnerable)"
+    },
+    lab_examples: {
+      "bypass_login": {
+        "description": "Bypass de login sin credenciales válidas",
+        "payload": {
+          "username": { "$ne": null },
+          "password": { "$ne": null }
+        }
+      },
+      "update_role": {
+        "description": "Cambiar rol de usuario a admin",
+        "endpoint": "POST /api/lab/update-user",
+        "payload": {
+          "username": "alice",
+          "campo": "role",
+          "valor": "admin"
+        },
+        "requires": "Token válido"
+      }
     }
   });
 });
@@ -65,13 +99,15 @@ app.get("/usuarios", async (req, res) => {
   }
 });
 
-app.post("/buscar-usuario", async (req, res) => {
+// ⚠️ RUTA DE LABORATORIO - REQUIERE AUTENTICACIÓN
+// Antes era pública, ahora está protegida con token
+app.post("/buscar-usuario", authenticateToken, async (req, res) => {
   try {
     const { username } = req.body;
     const usuarios = await User.find({ username });
     if (usuarios.length > 0) {
       res.json({
-        status: "✅ BÚSQUEDA EXITOSA",
+        status: "BÚSQUEDA EXITOSA",
         total: usuarios.length,
         usuarios,
       });
@@ -83,7 +119,9 @@ app.post("/buscar-usuario", async (req, res) => {
   }
 });
 
-app.post("/actualizar", async (req, res) => {
+// ⚠️ RUTA DE LABORATORIO - REQUIERE AUTENTICACIÓN
+// Antes era pública, ahora está protegida con token
+app.post("/actualizar", authenticateToken, async (req, res) => {
   try {
     const { username, campo, valor } = req.body;
     const resultado = await User.findOneAndUpdate(
