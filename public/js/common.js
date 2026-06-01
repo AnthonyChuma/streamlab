@@ -36,7 +36,7 @@ async function authFetch(url, options = {}) {
 }
 
 async function getProfile() {
-  const response = await authFetch("/api/auth/me");
+  const response = await authFetch("/api/auth/profile");
   if (!response.ok) throw new Error("No autorizado");
   return response.json();
 }

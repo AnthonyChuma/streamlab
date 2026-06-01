@@ -37,10 +37,15 @@ async function createUser(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const updates = { ...req.body };
-    if (updates.password === "") {
-      delete updates.password;
-    }
+    const allowedUpdates = ['password', 'email'];
+    const updates = {};
+    
+    allowedUpdates.forEach(field => {
+      if (req.body[field] !== undefined && req.body[field] !== "") {
+        updates[field] = req.body[field];
+      }
+    });
+    
     const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true, select: "username email role createdAt" });
     if (!user) {
       return res.status(404).json({ error: "Usuario no encontrado" });

@@ -22,9 +22,12 @@ async function getGenre(req, res) {
 async function createGenre(req, res) {
   try {
     const { name, description } = req.body;
-    const existing = await Genre.findOne({ name });
+    if (!name || typeof name !== 'string' || name.trim().length === 0) {
+      return res.status(400).json({ error: "El nombre del género es requerido" });
+    }
+    const existing = await Genre.findOne({ name: name.trim() });
     if (existing) return res.status(409).json({ error: "El género ya existe" });
-    const genre = await Genre.create({ name, description });
+    const genre = await Genre.create({ name: name.trim(), description });
     res.status(201).json(genre);
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -12,7 +12,8 @@ async function getMovies(req, res) {
       filter.year = Number(year);
     }
     if (search) {
-      const term = new RegExp(search, "i");
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const term = new RegExp(escapedSearch, "i");
       filter.$or = [
         { title: term },
         { description: term },
@@ -34,7 +35,8 @@ async function searchMovies(req, res) {
 
     if (title !== undefined) {
       if (req.method === "GET") {
-        filter.title = new RegExp(title, "i");
+        const escapedTitle = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        filter.title = new RegExp(escapedTitle, "i");
       } else {
         filter.title = title;
       }

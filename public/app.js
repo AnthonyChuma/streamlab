@@ -29,12 +29,11 @@ const renderSummaries = (usuarios) => {
   const total = usuarios.length;
   const totalAdmins = usuarios.filter((user) => user.role === "admin").length;
   const totalUsers = usuarios.filter((user) => user.role === "user").length;
-  const totalBalance = usuarios.reduce((sum, user) => sum + (Number(user.balance) || 0), 0);
 
-  totalUsersEl.textContent = total;
-  totalAdminsEl.textContent = totalAdmins;
-  totalUsersRoleEl.textContent = totalUsers;
-  totalBalanceEl.textContent = formatBalance(totalBalance);
+  if (totalUsersEl) totalUsersEl.textContent = total;
+  if (totalAdminsEl) totalAdminsEl.textContent = totalAdmins;
+  if (totalUsersRoleEl) totalUsersRoleEl.textContent = totalUsers;
+  if (totalBalanceEl) totalBalanceEl.textContent = "$0";
 };
 
 const renderUsersTable = (usuarios) => {

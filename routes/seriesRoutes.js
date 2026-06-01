@@ -5,8 +5,8 @@ const { authenticateToken, authorizeRoles } = require("../middleware/authMiddlew
 
 router.get("/", getSeries);
 router.get("/:id", getSerie);
-router.post("/", authenticateToken, authorizeRoles("admin"), createSerie);
-router.put("/:id", authenticateToken, authorizeRoles("admin"), updateSerie);
-router.delete("/:id", authenticateToken, authorizeRoles("admin"), deleteSerie);
+router.post("/", authenticateToken, authorizeRoles("manager", "admin"), createSerie);
+router.put("/:id", authenticateToken, authorizeRoles("manager", "admin"), updateSerie);
+router.delete("/:id", authenticateToken, authorizeRoles("manager", "admin"), deleteSerie);
 
 module.exports = router;

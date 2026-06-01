@@ -7,7 +7,8 @@ async function getSeries(req, res) {
     if (genre && genre !== "all") filter.genre = genre;
     if (year) filter.year = Number(year);
     if (search) {
-      const term = new RegExp(search, "i");
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const term = new RegExp(escapedSearch, "i");
       filter.$or = [{ title: term }, { description: term }];
     }
 
